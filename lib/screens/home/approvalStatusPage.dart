@@ -69,6 +69,13 @@ class _ApprovalPageState extends State<ApprovalPage> {
                     title: Text('Approval Status : ${documentSnapshot["approvalStatus"].toString()}'),
                     subtitle: Text('Duration : ${documentSnapshot["duration"].toString()} days'),
                   ),
+                  Column(
+                    children: [
+                      Text('Start Date: ${(documentSnapshot["startDate"] as Timestamp).toDate().toString().substring(0, (documentSnapshot["startDate"] as Timestamp).toDate().toString().indexOf(' '))}'),
+                      Text('End Date: ${(documentSnapshot["endDate"] as Timestamp).toDate().toString().substring(0, (documentSnapshot["endDate"] as Timestamp).toDate().toString().indexOf(' '))}'),
+
+                    ],
+                  ),
                   Align(
                   alignment: Alignment.bottomRight,
                     

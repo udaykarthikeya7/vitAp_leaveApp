@@ -63,6 +63,13 @@ final CollectionReference _leaveRequests =
                     title: Text('Approval Status : ${documentSnapshot["approvalStatus"]}'),
                     subtitle: Text('reason : ${documentSnapshot["reason"].toString()}'),
                   ),
+                  Column(
+                    children: [
+                      Text('Start Date: ${(documentSnapshot["startDate"] as Timestamp).toDate().toString().substring(0, (documentSnapshot["startDate"] as Timestamp).toDate().toString().indexOf(' '))}'),
+                      Text('End Date: ${(documentSnapshot["endDate"] as Timestamp).toDate().toString().substring(0, (documentSnapshot["endDate"] as Timestamp).toDate().toString().indexOf(' '))}'),
+
+                    ],
+                  ),
                   Text('duration : ${"${documentSnapshot["duration"]} ${documentSnapshot["duration"] == 1 ? 'day' : 'days'}"}'),
                   Align(
                   alignment: Alignment.bottomRight,
