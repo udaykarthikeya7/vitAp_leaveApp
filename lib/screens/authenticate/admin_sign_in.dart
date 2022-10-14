@@ -14,7 +14,7 @@ class AdminSignIn extends StatefulWidget {
 
 class _AdminSignInState extends State<AdminSignIn> {
 
-  String errorState = ''; 
+  String errorState = '';
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();

@@ -19,10 +19,12 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
 
   final reasonController = TextEditingController();
+  String submitStatus = '';
 
   DateTime dateToday = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day) ;
   DateTime startDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime endDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+  DateTime endRef = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
 
 
   @override
@@ -86,6 +88,8 @@ class _HomeState extends State<Home> {
               else {
                 setState(() {
                 startDate = newDate;
+                endRef = DateTime(startDate.year, startDate.month, startDate.day+1);
+                endDate = endRef;
               });
               }
                             
@@ -102,13 +106,13 @@ class _HomeState extends State<Home> {
             onPressed: () async {
               DateTime? newDate = await showDatePicker(
                 context: context,
-                initialDate: endDate,
-                firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1),
+                initialDate: endRef,
+                firstDate: endRef,
                 lastDate: DateTime(DateTime.now().year+4),
                 );
               if (newDate == null) {
                 setState(() {
-                endDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1);
+                endDate = DateTime(startDate.year, startDate.month, startDate.day+1);
               });
               }
               else {
@@ -133,17 +137,27 @@ class _HomeState extends State<Home> {
               )
             ),
 
-            const SizedBox(height: 60.0),
-
+            const SizedBox(height: 40.0),
+             Text(submitStatus),
              TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 119, 87, 207),
               ),
               onPressed: () async {
+                setState(() {
+                  submitStatus = 'Loading...';
+                });
                 final user = await FirebaseAuth.instance.currentUser;
+                String? email = user!.email;
                 if (user != null) {
                   await DatabaseService(uid: user.uid)
-                  .sendRequest(user.uid, startDate, endDate, endDate.difference(startDate).inDays, reasonController.text.trim(), DateTime.now());
+                  .sendRequest(email, user.uid, startDate, endDate, endDate.difference(startDate).inDays, reasonController.text.trim(), DateTime.now());
+                  await DatabaseService(uid: user.uid)
+                  .sendAllRequest(email, user.uid, startDate, endDate, endDate.difference(startDate).inDays, reasonController.text.trim(), DateTime.now())
+                  .then((value) => setState(() {
+                  submitStatus = 'submitted Successfully, check approval status by clicking below';
+                  })
+                  );
                 }
               },
               child: const Text('Submit Request',

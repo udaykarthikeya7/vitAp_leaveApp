@@ -19,6 +19,9 @@ class _AdminHomeState extends State<AdminHome> {
   final AuthService _auth = AuthService();
 
 final CollectionReference _leaveRequests =
+  FirebaseFirestore.instance.collection('allRequests');
+
+  final CollectionReference _myRequests =
   FirebaseFirestore.instance.collection('requests');
 
 
@@ -57,18 +60,25 @@ final CollectionReference _leaveRequests =
                   child: Column(
                     children: [
                       ListTile(
-                    title: Text('Approval Status : ${documentSnapshot["Approval Status"]}'),
-                    subtitle: Text('email : ${documentSnapshot["email"].toString()}'),
+                    title: Text('Approval Status : ${documentSnapshot["approvalStatus"]}'),
+                    subtitle: Text('reason : ${documentSnapshot["reason"].toString()}'),
                   ),
+                  Text('duration : ${"${documentSnapshot["duration"]} ${documentSnapshot["duration"] == 1 ? 'day' : 'days'}"}'),
                   Align(
                   alignment: Alignment.bottomRight,
                     
                     child: FloatingActionButton.small(
                       onPressed: () async {
-                        
+                        final user = await FirebaseAuth.instance.currentUser;
+                        var doc_id = streamSnapshot.data!.docs[index].id;
+                        print(doc_id);
+                        await DatabaseService(uid: user!.uid)
+                        .approveAllRequest(doc_id);
+                        await DatabaseService(uid: user.uid)
+                        .approveRequest(documentSnapshot['docId'], doc_id);
                       },
-                      child: const Icon(Icons.check),
                       backgroundColor: Colors.green[300],
+                      child: const Icon(Icons.check),
                       ),
                     ),
                     ],

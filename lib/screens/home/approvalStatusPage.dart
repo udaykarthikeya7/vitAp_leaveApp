@@ -74,10 +74,12 @@ class _ApprovalPageState extends State<ApprovalPage> {
                     
                     child: FloatingActionButton.small(
                       onPressed: () async {
-                        DatabaseService().deleteUserRequests(documentSnapshot.id);
+                        await FirebaseFirestore.instance.runTransaction((Transaction myTransaction) async {
+                          await myTransaction.delete(streamSnapshot.data!.docs[index].reference);
+                          });
                       },
-                      child: const Icon(Icons.delete),
                       backgroundColor: Colors.brown[300],
+                      child: const Icon(Icons.delete),
                       ),
                     ),
                     ],

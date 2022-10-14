@@ -14,6 +14,8 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
+  String errorState = '';
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -45,7 +47,11 @@ class _SignInState extends State<SignIn> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-         const SizedBox(height: 40.0),
+         const SizedBox(height: 30.0),
+         Text(errorState, style: const TextStyle(
+          color: Colors.red,
+         ),),
+         const SizedBox(height: 2.0,),
           TextField(
             controller: emailController,
             cursorColor: Color.fromARGB(255, 120, 102, 252),
@@ -69,6 +75,9 @@ class _SignInState extends State<SignIn> {
               );
             if (result == null) {
               print('error signing in');
+              setState(() {
+                errorState = 'invalid username or password';
+              });
             } else {
               print('signed in');
               print(result.uid);
