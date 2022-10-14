@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "811731772267",
+    "project_id": "vitap-leaveapp",
+    "storage_bucket": "vitap-leaveapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811731772267:android:d1024faf2b2ae40f83222e",
+        "android_client_info": {
+          "package_name": "com.vitap.vitap_leaveapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811731772267-5o17bnuiiercipcjp1orerc6fddbt144.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABsfVHxTsoChHsH4eol_JxPb6qLaQVdos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811731772267-5o17bnuiiercipcjp1orerc6fddbt144.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
